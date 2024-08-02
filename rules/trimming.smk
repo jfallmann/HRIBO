@@ -64,7 +64,7 @@ rule trim_single:
 
 rule trim_paired:
     input:
-        fastq1=rules.link_paired.output.fastq1
+        fastq1=rules.link_paired.output.fastq1,
         fastq2=rules.link_paired.output.fastq2
     output:
         fastq1=temp("trimmedpaired/{method}-{condition}-{replicate}_q.fastq"),

@@ -48,7 +48,7 @@ ruleorder: link_paired > link_single
 
 rule trim_single:
     input:
-        fastq="trimlink/{method}-{condition}-{replicate}.fastq.gz"
+        fastq=rules.link_single.output.fastq
     output:
         fastq=temp("trimmed/{method}-{condition}-{replicate}.fastq")
     params:
@@ -64,8 +64,8 @@ rule trim_single:
 
 rule trim_paired:
     input:
-        fastq1="trimlink/{method}-{condition}-{replicate}_q.fastq.gz",
-        fastq2="trimlink/{method}-{condition}-{replicate}_p.fastq.gz"
+        fastq1=rules.link_paired.output.fastq1
+        fastq2=rules.link_paired.output.fastq2
     output:
         fastq1=temp("trimmedpaired/{method}-{condition}-{replicate}_q.fastq"),
         fastq2=temp("trimmedpaired/{method}-{condition}-{replicate}_p.fastq")

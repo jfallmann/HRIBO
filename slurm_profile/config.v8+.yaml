@@ -1,6 +1,6 @@
 restart-times: 3
 jobscript: "slurm-jobscript.sh"
-#cluster-generic-submit-cmd: "slurm-submit.py"
+cluster-generic-submit-cmd: "slurm-submit.py"
 #cluster-status: "slurm-status.py"
 max-jobs-per-second: 1
 max-status-checks-per-second: 3
@@ -10,22 +10,19 @@ latency-wait: 600
 keep-going: True
 rerun-incomplete: True
 #printshellcmds: True
-default-respurces:
+default-resources:
   slurm_account: pau # your account name
   slurm_partition: c # the partition to use
-  time: 8h # default time (minutes)
+  time: 480 # default time (minutes)
   nodes: 1
-  output: "/SLURMLOG/{rule}.{wildcards}.out"
-  error: "/SLURMLOG/{rule}.{wildcards}.err"
-  #ntasks: 1
-  mem: 20GB # default memory     
+  mem_mb: 40000 # default memory     
 use-conda: True
 use-singularity: True
 singularity-args: " -c "
 jobs: 50
 set-threads:
  - predictDeepRibo=10
- - genomeSegemehlIndex=20
+ - genomeSegemehlIndex=10
  - map=20
  - samuniq=20
  - sammultitobam=20
@@ -52,34 +49,87 @@ set-threads:
  - totalmappedbamindex=20
  - uniquemappedbamindex=20
 set-resources:
- - predictDeepRibo:mem_mb=20000,runtime=240
- - genomeSegemehlIndex:mem_mb=40000,runtime=120
- - map:mem_mb=40000,runtime=240
- - samuniq:mem_mb=40000,runtime=120
- - sammultitobam:mem_mb=40000,runtime=120
- - samtobam:mem_mb=40000,runtime=120
- - normalizedmetageneprofiling:mem_mb=20000
- - metageneprofiling:mem_mb=20000
- - fastqcunique:mem_mb=30000
- - fastqcmulti:mem_mb=40000
- - fastqcraw:mem_mb=40000
- - fastqctrimmed:mem_mb=40000
- - featurescounts:mem_mb=40000
- - trnafeaturescounts:mem_mb=30000
- - norrnafeaturescounts:mem_mb=30000
- - rrnatotalfeaturescounts:mem_mb=30000
- - rrnauniquefeaturescounts:mem_mb=30000
- - generateDifferentialExpressionReadCounts:mem_mb=30000
- - generateReparationReadCounts:mem_mb=20000
- - generateDeepRiboReadCounts:mem_mb=20000
- - generateAnnotationIndependantReadCounts:mem_mb=20000
- - generateAnnotationTotalReadCounts:mem_mb=20000
- - generateAnnotationUniqueReadCounts:mem_mb=20000
- - reparation:mem_mb=30000,runtime=240
- - rrnafilter2:mem_mb=40000,runtime=120
- - trim:mem_mb=40000
- - bamindex:mem_mb=40000
- - totalmappedbamindex:mem_mb=40000
- - uniquemappedbamindex:mem_mb=40000
- - bamcompare:mem_mb=20000
-
+  predictDeepRibo:
+    mem_mb: 20000
+    runtime: 240
+  parseDeepRibo:
+    mem_mb: 40000
+    runtime: 480
+  genomeSegemehlIndex:
+    slurm_partition: "m"
+    mem_mb: 250000
+    runtime: 240
+  map:
+    mem_mb: 100000
+    runtime: 240
+  samuniq:
+    mem_mb: 40000
+    runtime: 120
+  sammultitobam:
+    mem_mb: 40000
+    runtime: 120
+  samtobam:
+    mem_mb: 40000
+    runtime: 120
+  normalizedmetageneprofiling:
+    mem_mb: 20000
+  metageneprofiling:
+    mem_mb: 20000
+  fastqcunique:
+    mem_mb: 30000
+  fastqcmulti:
+    mem_mb: 40000
+  fastqcraw:
+    mem_mb: 40000
+  fastqctrimmed:
+    mem_mb: 40000
+  featurescounts:
+    mem_mb: 40000
+  trnafeaturescounts:
+    mem_mb: 30000
+  norrnafeaturescounts:
+    mem_mb: 30000
+  rrnatotalfeaturescounts:
+    mem_mb: 30000
+  rrnauniquefeaturescounts:
+    mem_mb: 30000
+  generateDifferentialExpressionReadCounts:
+    mem_mb: 30000
+  generateReparationReadCounts:
+    mem_mb: 20000
+  generateDeepRiboReadCounts:
+    mem_mb: 20000
+  generateAnnotationIndependantReadCounts:
+    mem_mb: 20000
+  generateAnnotationTotalReadCounts:
+    mem_mb: 20000
+  generateAnnotationUniqueReadCounts:
+    mem_mb: 20000
+  reparation:
+    mem_mb: 30000
+    runtime: 240
+  rrnafilter2:
+    mem_mb: 40000
+    runtime: 120
+  trim:
+    mem_mb: 40000
+  bamindex:
+    mem_mb: 40000
+  totalmappedbamindex:
+    mem_mb: 40000
+  uniquemappedbamindex:
+    mem_mb: 40000
+  bamcompare:
+    mem_mb: 20000
+  reversecomplementGenome:
+    mem_mb: 100000
+  startCodonTrack:
+    mem_mb: 60000
+  stopCodonTrack:
+    mem_mb: 60000
+  alternativeStartCodonTrack:
+    mem_mb: 10000
+  alternativeStopCodonTrack:
+    mem_mb: 10000
+  xtail:
+   mem_mb: 60000

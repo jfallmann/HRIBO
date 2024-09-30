@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 import argparse
-import pandas as pd
-
-import plotly as py
-import plotly.graph_objects as go
-
 from pathlib import Path
 
+import pandas as pd
+import plotly as py
+import plotly.graph_objects as go
 
 INTRO_HTML = \
 """
@@ -65,6 +63,11 @@ def plot_scatter_2D(table_df, percentage_variance):
         pca_data.append([group[1]["PC1"], group[1]["PC2"]])
 
     color_list = py.colors.DEFAULT_PLOTLY_COLORS
+
+    if len(color_list) < len(labels):
+        color_list = py.colors.DEFAULT_PLOTLY_COLORS * (
+            len(labels) // len(py.colors.DEFAULT_PLOTLY_COLORS) + 1
+        )
 
     group_labels = [f"{count}" for count in range(len(labels))]
 
@@ -234,17 +237,17 @@ def create_html_file(fig_cor, fig_pca, output_path, file_suffix):
     Write the html file.
     """
     html_string = INTRO_HTML + "\n"
-    html_string += f"<h1>Differential expression Quality Control</h1>\n"
-    html_string += f"<h2>Hierarchical Clustering Heatmap</h2>\n"
+    html_string += "<h1>Differential expression Quality Control</h1>\n"
+    html_string += "<h2>Hierarchical Clustering Heatmap</h2>\n"
     html_string += fig_cor.to_html(config={"toImageButtonOptions": {"format" : "svg"}}, full_html=False, default_width="100%", default_height="800px" )
     html_string += "<div class=description>\n"
-    html_string += f"<p>The heatmap displays the correlation of gene expression for all pairwise combinations of input samples. It indicates which samples are more similar to each other based on the normalized gene expression values.</p>\n"
-    html_string += f"<p>Typically all samples have high correlations with each other (values >0.70). Samples that have a lower value may indicate an outlier in your data or sample contamination.</p>\n"
+    html_string += "<p>The heatmap displays the correlation of gene expression for all pairwise combinations of input samples. It indicates which samples are more similar to each other based on the normalized gene expression values.</p>\n"
+    html_string += "<p>Typically all samples have high correlations with each other (values >0.70). Samples that have a lower value may indicate an outlier in your data or sample contamination.</p>\n"
     html_string += "</div>\n"
-    html_string += f"<h2>Principal Component Analysis (PCA)</h2>\n"
+    html_string += "<h2>Principal Component Analysis (PCA)</h2>\n"
     html_string += fig_pca.to_html(config={"toImageButtonOptions": {"format" : "svg"}}, full_html=False, include_plotlyjs=False, default_width="100%", default_height="800px")
     html_string += "<div class=description>\n"
-    html_string += f"<p>PCA is a statistical technique used to reduce the dimensionality of large data sets. It is does this by splitting the data into its principal components based on the variance in the data. <br>The first principal component (PC1) represents the maximum variance within the samples (PC2 the second highest etc...). PCA is a powerful tool to detect patterns and outliers among all the samples. </p>\n"
+    html_string += "<p>PCA is a statistical technique used to reduce the dimensionality of large data sets. It is does this by splitting the data into its principal components based on the variance in the data. <br>The first principal component (PC1) represents the maximum variance within the samples (PC2 the second highest etc...). PCA is a powerful tool to detect patterns and outliers among all the samples. </p>\n"
     html_string += "</div>\n"
     with open(output_path / f"diffex_QC{file_suffix}.html", "w") as f:
         f.write(html_string)

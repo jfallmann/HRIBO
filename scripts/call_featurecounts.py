@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 import argparse
-
-import os
-import pandas as pd
-import shlex, subprocess
 import collections
-import sys
 import csv
+import os
+import shlex
+import subprocess
+import sys
+
+import pandas as pd
+
 
 def call_featureCounts(args):
     """
@@ -54,11 +56,12 @@ def call_featureCounts(args):
             new_rows = []
             for row in tmp_df.itertuples(index=False, name='Pandas'):
                 gene_id = getattr(row, "_0")
-                chromosome = getattr(row, "_1").split(";")[0]
+                chromosome = getattr(row, "_1")
+                if type(chromosome) is str:
+                    chromosome = getattr(row, "_1").split(";")[0]
                 start = getattr(row, "_2")
                 if type(start) is str:
                     start = start.split(";")[0]
-
                 stop = getattr(row, "_3")
                 if type(stop) is str:
                     stop = stop.split(";")[0]

@@ -128,8 +128,8 @@ set-resources:
   stopCodonTrack:
     mem_mb: 60000
   alternativeStartCodonTrack:
-    mem_mb: 10000
+    mem_mb: 40000
   alternativeStopCodonTrack:
-    mem_mb: 10000
+    mem_mb: 40000
   xtail:
    mem_mb: 60000

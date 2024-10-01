@@ -132,6 +132,10 @@ def plot_scatter_3D(table_df, percentage_variance):
 
     color_list = py.colors.DEFAULT_PLOTLY_COLORS
     #color_list = ["rgb(0,0,0)", "rgb(183,183,183)", "rgb(250,128,114)", "rgb(238,238,0)", "rgb(65,105,225)", "rgb(189,252,201)"]
+    if len(color_list) < len(labels):
+        color_list = py.colors.DEFAULT_PLOTLY_COLORS * (
+            len(labels) // len(py.colors.DEFAULT_PLOTLY_COLORS) + 1
+        )
 
     group_labels = [f"{count}" for count in range(len(labels))]
 
